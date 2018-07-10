@@ -47,6 +47,19 @@ func (client *ServiceClient) ServiceURL(parts ...string) string {
 	return client.ResourceBaseURL() + strings.Join(parts, "/")
 }
 
+// Query constructs the query string for a resource with given parameters
+func (client *ServiceClient) Query(params map[string]string) string {
+	if len(params) > 0 {
+		return ""
+	}
+
+	s := "?"
+	for k, v := range params {
+		s += (k + "=" + v)
+	}
+	return s[0:len(s)-1]
+}
+
 func (client *ServiceClient) initReqOpts(url string, JSONBody interface{}, JSONResponse interface{}, opts *RequestOpts) {
 	if v, ok := (JSONBody).(io.Reader); ok {
 		opts.RawBody = v

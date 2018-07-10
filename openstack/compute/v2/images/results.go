@@ -11,6 +11,12 @@ type GetResult struct {
 	gophercloud.Result
 }
 
+// GetFromFilterResult is the response from a GetFromName operation. Call its Extract
+// method to interpret it as an Image.
+type GetFromFilterResult struct {
+	gophercloud.Result
+}
+
 // DeleteResult is the result from a Delete operation. Call its ExtractErr
 // method to determine if the call succeeded or failed.
 type DeleteResult struct {
@@ -24,6 +30,14 @@ func (r GetResult) Extract() (*Image, error) {
 	}
 	err := r.ExtractInto(&s)
 	return s.Image, err
+}
+
+func (r GetFromFilterResult) Extract() ([]*Image, error) {
+	var s struct {
+		Images []*Image `json:"images"`
+	}
+	err := r.ExtractInto(&s)
+	return s.Images, err
 }
 
 // Image represents an Image returned by the Compute API.

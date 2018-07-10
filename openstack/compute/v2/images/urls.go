@@ -10,6 +10,10 @@ func getURL(client *gophercloud.ServiceClient, id string) string {
 	return client.ServiceURL("images", id)
 }
 
+func getFromFiltersURL(client *gophercloud.ServiceClient, filters map[string]string) string {
+	return client.ServiceURL("images" + client.Query(filters))
+}
+
 func deleteURL(client *gophercloud.ServiceClient, id string) string {
 	return client.ServiceURL("images", id)
 }
